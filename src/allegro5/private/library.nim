@@ -1,13 +1,17 @@
 when defined(Windows):
-  const name* = "Allegro.dll"
+  const allegro* = "Allegro.dll"
+  const imageAddon* = "AllegroImage.dll"
 elif defined(Linux):
-  const name* = "liballegro.so"
+  const allegro* = "liballegro.so"
+  const acodecAddon* = "liballegro_acodec.so"
+  const audioAddon* = "liballegro_audio.so"
+  const colorAddon* = "liballegro_color.so"
+  const dialogAddon* = "liballegro_dialog.so"
+  const fontAddon* = "liballegro_font.so"
+  const imageAddon* = "liballegro_image.so"
+  const physfsAddon* = "liballegro_physfs.so"
+  const ttfAddon* = "liballegro_ttf.so"
+  const videoAddon* = "liballegro_video.so"
 elif defined(MacOsX):
-  const name* = "liballegro.dylib"
-
-when defined(Windows):
-  const image* = "Allegro_image.dll"
-elif defined(Linux):
-  const image* = "liballegro_image.so"
-elif defined(MacOsX):
-  const image* = "liballegro_image.dylib"
+  const allegro* = "liballegro.dylib"
+  const imageAddon* = "liballegro_image.dylib"

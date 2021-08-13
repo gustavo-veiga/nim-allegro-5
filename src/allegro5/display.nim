@@ -73,7 +73,7 @@ type
     require   = 1
     suggest   = 2
 
-{.push importc, dynlib: library.name.}
+{.push importc, dynlib: library.allegro.}
 proc al_set_new_display_refresh_rate(refreshRate: cint): void
 proc al_set_new_display_flags(flags: cint): void
 proc al_get_new_display_refresh_rate(): cint

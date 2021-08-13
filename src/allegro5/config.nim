@@ -5,7 +5,7 @@ type
   AllegroConfigEntry = ptr object
   AllegroConfigSection = ptr object
 
-{.push importc, dynlib: library.name.}
+{.push importc, dynlib: library.allegro.}
 proc al_create_config(): AllegroConfig
 proc al_load_config_file(filename: cstring): AllegroConfig
 proc al_destroy_config(config: AllegroConfig): void

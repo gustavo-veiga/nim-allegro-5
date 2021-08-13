@@ -1,6 +1,6 @@
 import private/library, config
 
-{.push importc, dynlib: library.name.}
+{.push importc, dynlib: library.allegro.}
 proc al_install_system(version, exit: cint): bool
 proc al_uninstall_system(): void
 proc al_is_system_installed(): bool

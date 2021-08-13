@@ -1,3 +1,5 @@
+import private/library
+
 type
   AllegroJoystick* = ptr object
   AllegroJoyflags* {.pure.} = enum
@@ -6,7 +8,7 @@ type
   AllegroJoystickState* = object
     axis: float
 
-{.push importc, dynlib: "liballegro.so".}
+{.push importc, dynlib: library.allegro.}
 proc al_install_joystick(): bool
 proc al_uninstall_joystick(): void
 proc al_is_joystick_installed(): bool

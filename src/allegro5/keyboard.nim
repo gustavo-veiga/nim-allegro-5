@@ -1,10 +1,10 @@
-import keycodes
+import private/library, keycodes
 
 type
   AllegroKeyboard* = ptr object
   AllegroKeyboardState* = ptr object
 
-{.push dynlib: "liballegro.so".}
+{.push dynlib: library.allegro.}
 proc installKeyboard(): bool {.importc: "al_install_keyboard".}
 proc uninstallKeyboard(): void {.importc: "al_uninstall_keyboard".}
 proc isKeyboardInstalled(): bool {.importc: "al_is_keyboard_installed".}
