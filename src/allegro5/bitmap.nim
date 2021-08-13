@@ -1,0 +1,2 @@
+type
+  AllegroBitmap* = ptr object

@@ -1,0 +1,2 @@
+type
+  AllegroEventSource* = ptr object
