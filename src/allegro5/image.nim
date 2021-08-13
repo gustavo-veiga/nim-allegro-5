@@ -1,20 +1,20 @@
 import private/library
 
-{.push dynlib: library.image.}
-proc alInitImageAddon(): bool  {.importc: "al_init_image_addon".}
-proc alIsImageAddonInitialized(): bool  {.importc: "al_is_image_addon_initialized".}
-proc alShutdownImageAddon(): void  {.importc: "al_shutdown_image_addon".}
-proc alGetAllegroImageVersion(): cuint  {.importc: "al_get_allegro_image_version".}
+{.push importc, dynlib: library.image.}
+proc al_init_image_addon(): bool
+proc al_is_image_addon_initialized(): bool
+proc al_shutdown_image_addon(): void
+proc al_get_allegro_image_version(): cuint
 {.pop.}
 
 proc newAllegroImageAddon*(): void =
-  discard alInitImageAddon()
+  discard al_init_image_addon()
 
 proc isImageAddonInitialized*(): bool =
-  return alIsImageAddonInitialized()
+  return al_is_image_addon_initialized()
 
 proc freeAllegroImageAddon*(): void =
-  alShutdownImageAddon()
+  al_shutdown_image_addon()
 
 proc imageAddonVersion*(): uint =
-  return alGetAllegroImageVersion().uint
+  return al_get_allegro_image_version().uint

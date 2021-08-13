@@ -141,7 +141,8 @@ type
     keyThumbr     = 127
     keyUnknown    = 128
 
-   #[ All codes up to before keyMODIFIERS can be freely
+    #[
+      All codes up to before keyMODIFIERS can be freely
       assignedas additional unknown keys like various multimedia
       and application keys keyboards may have.
     ]#

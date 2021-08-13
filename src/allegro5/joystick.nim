@@ -6,22 +6,42 @@ type
   AllegroJoystickState* = object
     axis: float
 
-{.push dynlib: "liballegro.so".}
-proc installJoystick(): bool {.importc: "al_install_joystick".}
-proc uninstallJoystick(): void {.importc: "al_uninstall_joystick".}
-proc isJoystickInstalled(): bool {.importc: "is_joystick_installed".}
-proc reconfigureJoystick(): bool {.importc: "al_reconfigure_joysticks".}
+{.push importc, dynlib: "liballegro.so".}
+proc al_install_joystick(): bool
+proc al_uninstall_joystick(): void
+proc al_is_joystick_installed(): bool
+proc al_reconfigure_joysticks(): bool
 
-proc getNumJoysticks(): int {.importc: "al_get_num_joysticks".}
-proc getJoystick(joyn: cint): AllegroJoystick {.importc: "al_get_joystick".}
-proc releasejoystick(joystick: AllegroJoystick): void {.importc: "al_release_joystick".}
+proc al_get_num_joysticks(): int
+proc al_get_joystick(joyn: cint): AllegroJoystick
+proc al_release_joystick(joystick: AllegroJoystick): void
+proc al_get_joystick_active(joystick: AllegroJoystick): bool
+proc al_get_joystick_name(joystick: AllegroJoystick): cstring
 {.pop.}
 
+proc newAllegroJoystick*(): void =
+  discard al_install_joystick()
+
+proc freeAllegroJoystick*(): void =
+  al_uninstall_joystick()
+
+proc isJoystickInstalled*(): bool =
+  return al_is_joystick_installed()
+
+proc reconfigureJoysticks*(): void =
+  discard al_reconfigure_joysticks()
+
 proc avaliableJoysticks*(): uint =
-  return getNumJoysticks().uint
+  return al_get_num_joysticks().uint
 
 proc newAllegroJoystick*(joyNumber: uint): AllegroJoystick =
-  return getJoystick(joyNumber.cint)
+  return al_get_joystick(joyNumber.cint)
 
-proc release*(self: var AllegroJoystick): void =
-  releasejoystick(self)
+proc release*(joystick: AllegroJoystick): void =
+  al_release_joystick(joystick)
+
+proc isActive*(joystick: AllegroJoystick): bool =
+  return al_get_joystick_active(joystick)
+
+proc name*(joystick: AllegroJoystick): string =
+  return $al_get_joystick_name(joystick)

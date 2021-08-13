@@ -1,22 +1,23 @@
 import private/library, config
 
-{.push dynlib: library.name.}
-proc alInstallSystem(version, exit: cint): bool {.importc: "al_install_system".}
-proc alUninstallSystem(): void {.importc: "al_uninstall_system".}
-proc alIsSystemInstalled(): bool {.importc: "al_is_system_installed".}
+{.push importc, dynlib: library.name.}
+proc al_install_system(version, exit: cint): bool
+proc al_uninstall_system(): void
+proc al_is_system_installed(): bool
 
-proc alGetSystemConfig(): AllegroConfig {.importc: "al_get_system_config".}
+proc al_get_system_config(): AllegroConfig
 {.pop.}
+
 let allegroVersionInt {.importc: "ALLEGRO_VERSION_INT", header: "<allegro5/base.h>".}: cint
 
 proc newAllegro*(): void =
-  discard alInstallSystem(allegroVersionInt, 0);
+  discard al_install_system(allegroVersionInt, 0);
 
 proc newAllegroSystemConfig*(): AllegroConfig =
-  return alGetSystemConfig()
+  return al_get_system_config()
 
 proc freeAllegro*(): void =
-  alUninstallSystem()
+  al_uninstall_system()
 
-proc isInstalledAlegro*(): bool =
-  return alIsSystemInstalled()
+proc isAlegroInstalled*(): bool =
+  return al_is_system_installed()
