@@ -10,13 +10,13 @@ proc al_get_system_config(): AllegroConfig
 
 let allegroVersionInt {.importc: "ALLEGRO_VERSION_INT", header: "<allegro5/base.h>".}: cint
 
-proc newAllegro*(): void =
+proc installAllegro*(): void =
   discard al_install_system(allegroVersionInt, 0);
 
-proc newAllegroSystemConfig*(): AllegroConfig =
+proc installAllegroSystemConfig*(): AllegroConfig =
   return al_get_system_config()
 
-proc freeAllegro*(): void =
+proc uninstallAllegro*(): void =
   al_uninstall_system()
 
 proc isAlegroInstalled*(): bool =
