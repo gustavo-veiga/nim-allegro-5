@@ -106,7 +106,6 @@ proc removeKey*(config: AllegroConfig, section, key: string): void =
 proc merge*(master, add: AllegroConfig): void =
   al_merge_config_into(master, add)
 
-
 #[
   Merge two configuration structures, and return the result as a new configuration.
   Values in configuration ‘cfg2’ override those in ‘cfg1’.
