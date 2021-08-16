@@ -7,14 +7,14 @@ proc al_shutdown_image_addon(): void
 proc al_get_allegro_image_version(): cuint
 {.pop.}
 
-proc newAllegroImageAddon*(): void =
+proc installAllegroImageAddon*(): void =
   discard al_init_image_addon()
 
 proc isImageAddonInitialized*(): bool =
   return al_is_image_addon_initialized()
 
-proc freeAllegroImageAddon*(): void =
+proc uninstallAllegroImageAddon*(): void =
   al_shutdown_image_addon()
 
-proc imageAddonVersion*(): uint =
+proc allegroImageAddonVersion*(): uint =
   return al_get_allegro_image_version().uint
