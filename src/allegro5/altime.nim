@@ -11,9 +11,9 @@ proc al_init_timeout(timeout: var AllegroTimeout, seconds: cdouble): void
 {.pop.}
 
 proc time*(): float64 =
-  return al_get_time().cdouble
+  return al_get_time().float64
 
-proc rest*(seconds: float64): void =
+proc restTime*(seconds: float64): void =
   al_rest(seconds.cdouble)
 
 proc newAllegroTimeout*(seconds: float64): AllegroTimeout =
