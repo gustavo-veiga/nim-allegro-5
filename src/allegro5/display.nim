@@ -1,4 +1,4 @@
-import std/sequtils, private/library, bitmap, events
+import std/sequtils, private/library, bitmap, event_source
 
 type
   AllegroDisplay* = ptr object
@@ -149,12 +149,10 @@ proc newAllegroDisplayRefreshRate*(refreshRate: uint): void =
 proc newAllegroDisplayFlags*(): int =
   return al_get_new_display_flags()
 
-proc newAllegroDisplayFlags*(flags: seq[AllegroDisplayFlag]): void =
-  var flagsCount = 0;
-  for flag in flags:
-    flagsCount += flag.int
-  if (flagsCount > 0):
-    al_set_new_display_flags(flagsCount.cint)
+proc allegroDisplayFlags*(flags: varargs[AllegroDisplayFlag]): void =
+  let flagInt = flags.mapIt(it.cint).foldl(a or b)
+  if (flagInt > 0):
+    al_set_new_display_flags(flagInt)
 
 proc newAllegroWindowTitle*(): string =
   return $al_get_new_window_title()

@@ -1,4 +1,4 @@
-import private/library, events
+import private/library, event_source
 
 type
   AllegroTimer* = ptr object
