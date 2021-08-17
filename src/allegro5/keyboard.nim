@@ -1,16 +1,27 @@
-import private/library, keycodes
+import private/library, event_source, keycodes
 
 type
   AllegroKeyboard* = ptr object
   AllegroKeyboardState* = ptr object
 
-{.push dynlib: library.allegro.}
-proc installKeyboard(): bool {.importc: "al_install_keyboard".}
-proc uninstallKeyboard(): void {.importc: "al_uninstall_keyboard".}
-proc isKeyboardInstalled(): bool {.importc: "al_is_keyboard_installed".}
+{.push importc, dynlib: library.allegro.}
+proc al_install_keyboard(): bool
+proc al_uninstall_keyboard(): void
+proc al_is_keyboard_installed(): bool
 
-proc keyDown(state: ref AllegroKeyboardState, keyCode: cint): bool {.importc: "al_key_down".}
+proc al_key_down(state: ref AllegroKeyboardState, keyCode: cint): bool
+
+proc al_get_keyboard_event_source(): AllegroEventSource
 {.pop.}
 
-proc keyDown*(state: ref AllegroKeyboardState, key: AllegroKey): bool =
-  keyDown(state, key.cint)
+proc installAllegroKeyboard*(): void = 
+  discard al_install_keyboard()
+
+proc uninstallAllegroKeyboard*(): void =
+  al_uninstall_keyboard()
+
+proc isAllegroKeyboardInstalled*(): bool =
+  return al_is_keyboard_installed()
+
+proc keyboardEventSource*(): AllegroEventSource =
+  return al_get_keyboard_event_source()
