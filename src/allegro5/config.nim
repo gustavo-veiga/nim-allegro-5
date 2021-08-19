@@ -30,89 +30,68 @@ proc al_merge_config(cfg1, cfg2: AllegroConfig): AllegroConfig
 proc al_merge_config_into(master, add: AllegroConfig): void
 {.pop.}
 
-#[
-  Create an empty configuration structure.
-]#
 proc newAllegroConfig*(): AllegroConfig =
+  ## Create an empty configuration structure.
   return al_create_config()
 
-#[
-  Read a configuration file from disk or create an empty.
-]#
 proc newAllegroConfig*(filename: string): AllegroConfig =
+  ## Read a configuration file from disk or create an empty.
   if os.fileExists filename:
     return al_load_config_file(filename)
   return al_create_config()
 
-#[
-  Free the resources used by a configuration structure.
-]#
 proc free*(config: AllegroConfig): void =
+  ## Free the resources used by a configuration structure.
   al_destroy_config(config)
 
-#[
-  Write out a configuration file to disk.
-]#
 proc save*(config: AllegroConfig, filename: string): void =
+  ## Write out a configuration file to disk.
   discard al_save_config_file(filename, config)
 
-#[
-  Add a section to a configuration structure with the given name.
-  If the section already exists then nothing happens.
-]#
 proc addSection*(config: AllegroConfig, name: string): void =
+  ## Add a section to a configuration structure with the given name.
+  ## If the section already exists then nothing happens.
   al_add_config_section(config, name)
 
-#[
-  Remove a section of a configuration.
-]#
 proc removeSection*(config: AllegroConfig, section: string): void =
+  ## Remove a section of a configuration.
   discard al_remove_config_section(config, section)
 
-#[
-  Add a comment in a section of a configuration. If the section doesn’t yet exist, it will be created. The section can be "" for the global section.
-  The comment may or may not begin with a hash character. Any newlines in the comment string will be replaced by space characters.
-]#
 proc addComment*(config: AllegroConfig, section, comment: string): void =
+  ## Add a comment in a section of a configuration. If the section doesn’t yet exist,
+  ## it will be created. The section can be "" for the global section.
+  ## The comment may or may not begin with a hash character. Any newlines in the comment
+  ## string will be replaced by space characters.
   al_add_config_comment(config, section, comment)
 
-#[]#
 proc value*(config: AllegroConfig, section, key: string): Option[string] =
   var value = al_get_config_value(config, section, key)
   if value.isNil:
     return none(string)
   return some($value)
 
-#[
-  Set a value in a section of a configuration. If the section doesn’t yet exist, it will be created.
-  If a value already existed for the given key, it will be overwritten. The section can be "" for the global section.
-  For consistency with the on-disk format of config files, any leading and trailing whitespace will be stripped from the value.
-  If you have significant whitespace you wish to preserve, you should add your own quote characters and remove them when reading the values back in.
-]#
 proc value*(config: AllegroConfig, section, key, value: string): void =
+  ## Set a value in a section of a configuration. If the section doesn’t yet exist, it will be created.
+  ## If a value already existed for the given key, it will be overwritten. The section can be "" for the global section.
+  ## For consistency with the on-disk format of config files, any leading and trailing whitespace will be stripped from the value.
+  ## If you have significant whitespace you wish to preserve, you should add your own quote characters and remove them when reading the values back in.
   al_set_config_value(config, section, key, value)
 
-#[
-  Remove a key and its associated value in a section of a configuration.
-]#
 proc removeKey*(config: AllegroConfig, section, key: string): void =
+  ## Remove a key and its associated value in a section of a configuration.
   discard al_remove_config_key(config, section, key)
 
-#[
-  Merge one configuration structure into another.
-  Values in configuration ‘add’ override those in ‘master’.
-  ‘master’ is modified. Comments from ‘add’ are not retained.
-]#
 proc merge*(master, add: AllegroConfig): void =
+  ## Merge one configuration structure into another.
+  ## Values in configuration ‘add’ override those in ‘master’.
+  ## ‘master’ is modified. Comments from ‘add’ are not retained.
   al_merge_config_into(master, add)
 
-#[
-  Merge two configuration structures, and return the result as a new configuration.
-  Values in configuration ‘cfg2’ override those in ‘cfg1’.
-  Neither of the input configuration structures are modified.
-  Comments from ‘cfg2’ are not retained.
-]#
 proc `+`*(cfg1, cfg2: AllegroConfig): AllegroConfig =
+  ## Merge two configuration structures, and return the result as a new configuration.
+  ## Values in configuration ‘cfg2’ override those in ‘cfg1’.
+  ## Neither of the input configuration structures are modified.
+  ## Comments from ‘cfg2’ are not retained.
   al_merge_config(cfg1, cfg2)
 
 #[]#
