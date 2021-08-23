@@ -1,5 +1,5 @@
 type
-  AllegroKey* {.pure.} = enum
+  AllegroKey* {.pure, final.} = enum
     keyA = 1
     keyB = 2
     keyC = 3
@@ -160,7 +160,7 @@ type
     keyNumLock    = 225
     keyCapsLock   = 226
     keyMax        = 227
-  AllegroKeyMod* {.pure.} = enum
+  AllegroKeyMod* {.pure, final.} = enum
     keyShift      = 0x00001
     keyCtrl       = 0x00002
     keyAlt        = 0x00004
