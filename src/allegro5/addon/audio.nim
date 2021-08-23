@@ -1,4 +1,5 @@
-import ../private/library, ../event_source
+import allegro5/event_source
+import allegro5/private/library
 
 type
   AllegroSample* = ptr object

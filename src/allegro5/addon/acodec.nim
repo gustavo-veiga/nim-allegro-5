@@ -1,4 +1,5 @@
-import ../private/library
+import allegro5/exceptions
+import allegro5/private/library
 
 {.push importc, dynlib: library.allegro.}
 proc al_init_acodec_addon(): bool
@@ -22,7 +23,9 @@ proc installAllegroAcodecAddon*(): void =
   ##   cannot be loaded with al_load_sample/al_load_sample_f and must be streamed
   ##   with al_load_audio_stream or al_load_audio_stream_f.
   ## * .voc file streaming is unimplemented.
-  discard al_init_acodec_addon()
+  let installed = al_init_acodec_addon()
+  if not installed:
+    raise new AllegroInstallAcodecException
 
 proc isAllegroAcodecAddonInitialized*(): bool =
   # Returns true if the acodec addon is initialized, otherwise returns false.

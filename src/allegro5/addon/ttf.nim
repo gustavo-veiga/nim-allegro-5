@@ -1,7 +1,11 @@
-import std/sequtils, ../private/library, ../exceptions, font
+import std/sequtils
+
+import allegro5/exceptions
+import allegro5/addon/font
+import allegro5/private/library
 
 type
-  AllegroFontTTFFlag* {.pure.} = enum
+  AllegroFontTtfFlag* {.pure, final.} = enum
     noKerning   = 1
     monochrome  = 2
     noAutohint  = 4
@@ -15,16 +19,16 @@ proc al_shutdown_ttf_addon(): void
 proc al_get_allegro_ttf_version(): cuint
 {.pop.}
 
-proc installAllegroTTFAddon*(): void =
+proc installAllegroTtfAddon*(): void =
   let installed = al_init_ttf_addon()
   if not installed:
-    raise new AllegroInstallTrueTypeFontException
+    raise new AllegroInstallTtfFontException
 
-proc newAllegroFontTTF*(filename: string, size: int, flags: varargs[AllegroFontTTFFlag]): AllegroFont =
+proc newAllegroFontTTF*(filename: string, size: int, flags: varargs[AllegroFontTtfFlag]): AllegroFont =
   let flagInt = if flags.len > 0: flags.mapIt(it.cint).foldl(a or b) else: 0
   return al_load_ttf_font(filename, size.cint, flagInt)
 
-proc newAllegroFontTTF*(filename: string, width, height: uint, flags: varargs[AllegroFontTTFFlag]): AllegroFont =
+proc newAllegroFontTTF*(filename: string, width, height: uint, flags: varargs[AllegroFontTtfFlag]): AllegroFont =
   let flagInt = if flags.len > 0: flags.mapIt(it.cint).foldl(a or b) else: 0
   return al_load_ttf_font_stretch(filename, width.cint, height.cint, flagInt)
 

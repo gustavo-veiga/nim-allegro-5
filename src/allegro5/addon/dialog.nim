@@ -1,4 +1,7 @@
-import std/sequtils, private/library, event_source, bitmap, display
+import std/sequtils
+
+import allegro5/private/library
+import allegro5/[event_source, bitmap, display]
 
 type
   AllegroFileChooser* = ptr object
