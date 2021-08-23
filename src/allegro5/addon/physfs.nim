@@ -1,4 +1,4 @@
-import private/library
+import ../private/library
 
 {.push importc, dynlib: library.physfsAddon.}
 proc al_set_physfs_file_interface(): void

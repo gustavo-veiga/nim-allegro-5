@@ -1,6 +1,6 @@
-import private/library
+import ../private/library
 
-{.push importc, dynlib: library.allegro.}
+{.push importc, dynlib: library.imageAddon.}
 proc al_init_image_addon(): bool
 proc al_is_image_addon_initialized(): bool
 proc al_shutdown_image_addon(): void

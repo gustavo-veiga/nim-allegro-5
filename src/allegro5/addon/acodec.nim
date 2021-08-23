@@ -1,4 +1,4 @@
-import private/library
+import ../private/library
 
 {.push importc, dynlib: library.allegro.}
 proc al_init_acodec_addon(): bool
