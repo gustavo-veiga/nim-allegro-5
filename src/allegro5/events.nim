@@ -38,30 +38,39 @@ type
    
     displayConnected      = 60
     displayDisconnected   = 61
-  AllegroEventHeader[T] = object of RootObj
-    event*: AllegroEventType
-    source*: T
-    timestamp*: cdouble
-  AllegroEventAny* = object of AllegroEventHeader[AllegroEventSource]
-  AllegroEventDisplay* = object of AllegroEventHeader[AllegroDisplay]
-    x*, y*: cint
-    width*, height*: cint
-    orientation*: cint
-  AllegroEventJoystick* = object of AllegroEventHeader[AllegroJoystick]
-    id*: AllegroJoystick
-    stick*: cint
-    axis*: cint
-    pos*: cfloat
-    button*: cint
-  AllegroEventKeyboard* = object of AllegroEventHeader[AllegroKeyboard]
-    display*: AllegroDisplay  # the window the key was pressed in
-    keycode*: AllegroKey      # the physical key pressed
-    unichar*: cint            # unicode character or negative
-    modifiers*: cuint         # bitfield
-    repeat*: bool             # auto-repeated or not
-  AllegroEvent* = object
-    `type`*: AllegroEventType
-    `any`*: AllegroEventAny
+  AllegroEventAny* = object
+    event*:     AllegroEventType
+    source*:    pointer
+    timestamp*: float64
+  AllegroEventDisplay* = object
+    event*:       AllegroEventType
+    source*:      AllegroDisplay
+    timestamp*:   float64
+    x*, y*:       cint
+    width*:       cint
+    height*:      cint
+    orientation*: AllegroDisplayOrientation
+  AllegroEventJoystick* = object
+    event*:     AllegroEventType
+    source*:    AllegroJoystick
+    timestamp*: float64
+    id*:        cint
+    stick*:     cint
+    axis*:      cint
+    pos*:       cfloat
+    button*:    cint
+  AllegroEventKeyboard* = object
+    event*:     AllegroEventType
+    source*:    AllegroKeyboard
+    timestamp*: float64
+    display*:   AllegroDisplay  # the window the key was pressed in
+    keycode*:   AllegroKey      # the physical key pressed
+    unichar*:   cint            # unicode character or negative
+    modifiers*: AllegroKeyMod   # bitfield
+    repeat*:    bool            # auto-repeated or not
+  AllegroEvent* {.union.} = object
+    typeEvent*: AllegroEventType
+    anyEvent*: AllegroEventAny
     display*: AllegroEventDisplay
     joystick*: AllegroEventJoystick
     keyboard*: AllegroEventKeyboard
