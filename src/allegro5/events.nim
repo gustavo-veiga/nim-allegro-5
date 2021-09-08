@@ -88,7 +88,7 @@ proc al_get_next_event(queue: AllegroEventQueue, event: var AllegroEvent): bool
 proc al_peek_next_event(queue: AllegroEventQueue, event: var AllegroEvent): bool
 proc al_drop_next_event(queue: AllegroEventQueue): bool
 proc al_flush_event_queue(queue: AllegroEventQueue): void
-proc al_wait_for_event(queue: AllegroEventQueue, event: var AllegroEvent): void
+proc al_wait_for_event(queue: AllegroEventQueue, event: ref AllegroEvent): void
 proc al_wait_for_event_timed(queue: AllegroEventQueue, ret_event: var cint, secs: cfloat): bool
 proc al_wait_for_event_until(queue: AllegroEventQueue, ret_event: var cint, timeout: AllegroTimeout): bool
 {.pop.}
@@ -131,6 +131,6 @@ proc dropNext*(queue: AllegroEventQueue): void =
 proc flush*(queue: AllegroEventQueue): void =
   al_flush_event_queue(queue)
 
-proc wait*(queue: AllegroEventQueue, event: var AllegroEvent) =
+proc wait*(queue: AllegroEventQueue, event: ref AllegroEvent) =
   al_wait_for_event(queue, event)
 
