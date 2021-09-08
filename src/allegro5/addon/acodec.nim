@@ -1,7 +1,7 @@
 import allegro5/exceptions
 import allegro5/private/library
 
-{.push importc, dynlib: library.allegro.}
+{.push importc, dynlib: library.acodecAddon.}
 proc al_init_acodec_addon(): bool
 proc al_is_acodec_addon_initialized(): bool
 proc al_get_allegro_acodec_version(): cuint
