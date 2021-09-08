@@ -1,4 +1,4 @@
-import private/library, config, path
+import private/library, exceptions, config, path
 
 type
   AllegroSystem* = ptr object
@@ -49,7 +49,9 @@ let allegroVersionInt {.importc: "ALLEGRO_VERSION_INT", header: "<allegro5/base.
 proc installAllegro*(): void =
   ## Initialize the Allegro system. No other Allegro functions can be called
   ## before this (with one or two exceptions).
-  discard al_install_system(allegroVersionInt, atexit);
+  let installed = al_install_system(allegroVersionInt, atexit)
+  if not installed:
+    raise new AllegroInstallSystemException
 
 proc uninstallAllegro*(): void =
   ## Closes down the Allegro system.
