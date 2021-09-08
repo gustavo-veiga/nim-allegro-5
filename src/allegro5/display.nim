@@ -3,8 +3,8 @@ import std/sequtils, private/library, bitmap, event_source
 type
   AllegroDisplay* = ptr object
   AllegroWindowConstraints* = object
-    min_width*, min_height*, max_width*, max_height*: int
-  AllegroDisplayFlag* {.pure.} = enum
+    minWidth*, minHeight*, maxWidth*, maxHeight*: int
+  AllegroDisplayFlag* {.pure, final.} = enum
     windowed                = 1 shl 0
     fullscreen              = 1 shl 1
     openGL                  = 1 shl 2
@@ -20,7 +20,7 @@ type
     gtkTopLevelInternal     = 1 shl 12
     maximized               = 1 shl 13
     openGLESProfile         = 1 shl 14
-  AllegroDisplayOption* {.pure.} = enum
+  AllegroDisplayOption* {.pure, final.} = enum
     redSize               = 0
     greenSize             = 1
     blueSize              = 2
@@ -57,9 +57,9 @@ type
     openGLMajorVersion    = 33
     openGLMinorVersion    = 34
     displayOptionsCount   = 35
-  AllegroDisplayOrientation* {.pure.} = enum
+  AllegroDisplayOrientation* {.pure, final.} = enum
     unknown    = 0
-    degrees    = 1
+    degrees0   = 1
     degrees90  = 2
     degrees180 = 4
     portrait   = 6
@@ -68,7 +68,7 @@ type
     all        = 15
     faceUp     = 16
     faceDown   = 32
-  AllegroDisplayImportance* {.pure.} = enum
+  AllegroDisplayImportance* {.pure, final.} = enum
     dontcare  = 0
     require   = 1
     suggest   = 2
@@ -187,8 +187,8 @@ proc height*(display: AllegroDisplay, height: uint): void =
 proc format*(display: AllegroDisplay): int =
   return al_get_display_format(display)
 
-proc isResizible*(display: AllegroDisplay): bool =
-  return al_acknowledge_resize(display)
+proc acknowledgeResize*(display: AllegroDisplay): void =
+  discard al_acknowledge_resize(display)
 
 proc refreshRate*(display: AllegroDisplay): uint =
   al_get_display_refresh_rate(display).uint
@@ -267,13 +267,13 @@ proc windowConstraints*(display: AllegroDisplay, constraints: AllegroWindowConst
   discard al_set_window_constraints(display, constraints.min_width.cint, constraints.min_height.cint, constraints.max_width.cint, constraints.max_height.cint)
 
 proc windowConstraints*(display: AllegroDisplay): AllegroWindowConstraints =
-  var min_w, min_h, max_w, max_h: cint = 0
-  discard al_get_window_constraints(display, min_w, min_h, max_w, max_h) 
+  var minW, minH, maxW, maxH: cint = 0
+  discard al_get_window_constraints(display, minW, minH, maxW, maxH) 
   result = AllegroWindowConstraints()
-  result.min_width = min_w.int
-  result.min_height = min_h.int
-  result.max_height = max_h.int
-  result.max_width = max_w.int
+  result.minWidth = minW.int
+  result.minHeight = minH.int
+  result.maxHeight = maxH.int
+  result.maxWidth = maxW.int
 
 proc applyWindowConstraints*(display: AllegroDisplay, enble: bool): void =
   al_apply_window_constraints(display, enble)
