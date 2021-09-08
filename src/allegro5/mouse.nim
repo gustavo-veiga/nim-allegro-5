@@ -1,6 +1,7 @@
-import private/library, events, display
+import private/library, event_source, display
 
 type
+  AllegroMouse* = ptr object
   AllegroMouseState* = object
     x*: cint
     y*: cint
