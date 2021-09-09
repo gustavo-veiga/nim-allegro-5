@@ -87,14 +87,13 @@ proc merge*(master, add: AllegroConfig): void =
   ## ‘master’ is modified. Comments from ‘add’ are not retained.
   al_merge_config_into(master, add)
 
-proc `+`*(cfg1, cfg2: AllegroConfig): AllegroConfig =
+template `+`*(cfg1, cfg2: AllegroConfig): AllegroConfig =
   ## Merge two configuration structures, and return the result as a new configuration.
   ## Values in configuration ‘cfg2’ override those in ‘cfg1’.
   ## Neither of the input configuration structures are modified.
   ## Comments from ‘cfg2’ are not retained.
   al_merge_config(cfg1, cfg2)
 
-#[]#
 iterator sections*(config: AllegroConfig): string =
   var section = new AllegroConfigSection
   var sectionName = al_get_first_config_section(config, section)
@@ -102,7 +101,6 @@ iterator sections*(config: AllegroConfig): string =
     yield $sectionName
     sectionName = al_get_next_config_section(section)
 
-#[]#
 iterator entries*(config: AllegroConfig, section: string): string =
   var entry = new AllegroConfigEntry
   var entryName = al_get_first_config_entry(config, section, entry)
@@ -110,8 +108,7 @@ iterator entries*(config: AllegroConfig, section: string): string =
     yield $entryName
     entryName = al_get_next_config_entry(entry)
 
-#[]#
-proc `[]`*(config: AllegroConfig, section: string): TableRef[string, string] =
+template `[]`*(config: AllegroConfig, section: string): TableRef[string, string] =
   var values = newTable[string, string]()
   for entry in config.entries(section):
     values[entry] = config.value(section, entry).get()
