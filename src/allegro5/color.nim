@@ -63,17 +63,17 @@ proc newAllegroMapRGBA*(r, g, b, a: uint8): AllegroColor =
   ## This function can be called before Allegro is initialized.
   return al_map_rgba(r.cuchar, g.cuchar, b.cuchar, a.cuchar)
 
-proc newAllegroMapRGB*(r, g, b: float): AllegroColor =
+proc newAllegroMapRGB*(r, g, b: float32): AllegroColor =
   ## Convert r, g, b, (ranging from 0.0'f-1.0'f) into an AllegroColor, using 1.0'f for alpha.
   ## 
   ## This function can be called before Allegro is initialized.
-  return al_map_rgb_f(r.cfloat, g.cfloat, b.cfloat)
+  return al_map_rgb_f(r, g, b)
 
-proc newAllegroMapRGBA*(r, g, b, a: float): AllegroColor =
+proc newAllegroMapRGBA*(r, g, b, a: float32): AllegroColor =
   ## Convert r, g, b, a (ranging from 0.0'f-1.0'f) into an AllegroColor.
   ## 
   ## This function can be called before Allegro is initialized.
-  return al_map_rgba_f(r.cfloat, g.cfloat, b.cfloat, a.cfloat)
+  return al_map_rgba_f(r, g, b, a)
 
 proc newAllegroPreMultipliedRGBA*(r, g, b, a: uint8): AllegroColor =
   ## This is a shortcut for newAllegroMapRGBA(r * a / 255, g * a / 255, b * a / 255, a).
@@ -97,7 +97,7 @@ proc newAllegroPreMultipliedRGBA*(r, g, b, a: uint8): AllegroColor =
   ## This function can be called before Allegro is initialized.
   return al_premul_rgba(r.cuchar, g.cuchar, b.cuchar, a.cuchar)
 
-proc newAllegroPreMultipliedRGBA*(r, g, b, a: float): AllegroColor =
+proc newAllegroPreMultipliedRGBA*(r, g, b, a: float32): AllegroColor =
   ## This is a shortcut for newAllegroMapRGBA(r * a, g * a, b * a, a).
   ## 
   ## By default Allegro uses pre-multiplied alpha for transparent blending of bitmaps
@@ -117,7 +117,7 @@ proc newAllegroPreMultipliedRGBA*(r, g, b, a: float): AllegroColor =
   ##   bitmap.drawTinted(color, 0, 0, 0)
   ## 
   ## This function can be called before Allegro is initialized.
-  return al_premul_rgba_f(r.cfloat, g.cfloat, b.cfloat, a.cfloat)
+  return al_premul_rgba_f(r, g, b, a)
 
 proc unmapRGB*(color: AllegroColor): tuple[r, g, b: uint8] =
   ## Retrieves components of an AllegroColor, ignoring alpha. Components will range from 0-255.

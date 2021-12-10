@@ -86,7 +86,7 @@ proc newAllegroFont*(filename: string, size: uint, flags: varargs[AllegroFontFla
 proc newAllegroFontBuiltin*(): AllegroFont =
   return al_create_builtin_font()
 
-proc text*(font: AllegroFont, color: allegro5.AllegroColor | color.AllegroColor, text: string, x, y: float, flags: AllegroFontFlag = alignLeft): void =
+proc text*(font: AllegroFont, color: allegro5.AllegroColor | color.AllegroColor, text: string, x, y: float = 0, flags: AllegroFontFlag = alignLeft): void =
   al_draw_text(font, color, x.cfloat, y.cfloat, flags.cint, text)
 
 proc textJustified*(font: AllegroFont, color: allegro5.AllegroColor | color.AllegroColor, text: string, x1, x2, y, diff: float, flags: AllegroFontFlag = alignLeft): void =

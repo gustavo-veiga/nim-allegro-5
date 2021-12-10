@@ -3,7 +3,7 @@ import std/sequtils, private/library, bitmap, event_source
 type
   AllegroDisplay* = ptr object
   AllegroWindowConstraints* = object
-    minWidth*, minHeight*, maxWidth*, maxHeight*: int
+    minWidth*, minHeight*, maxWidth*, maxHeight*: int32
   AllegroDisplayFlag* {.pure, final.} = enum
     windowed                = 1 shl 0
     fullscreen              = 1 shl 1
@@ -270,32 +270,32 @@ proc windowConstraints*(display: AllegroDisplay): AllegroWindowConstraints =
   var minW, minH, maxW, maxH: cint = 0
   discard al_get_window_constraints(display, minW, minH, maxW, maxH) 
   result = AllegroWindowConstraints()
-  result.minWidth = minW.int
-  result.minHeight = minH.int
-  result.maxHeight = maxH.int
-  result.maxWidth = maxW.int
+  result.minWidth = minW
+  result.minHeight = minH
+  result.maxHeight = maxH
+  result.maxWidth = maxW
 
-proc applyWindowConstraints*(display: AllegroDisplay, enble: bool): void =
-  al_apply_window_constraints(display, enble)
+proc applyWindowConstraints*(display: AllegroDisplay, enable: bool): void =
+  al_apply_window_constraints(display, enable)
 
 proc title*(display: AllegroDisplay, title: string): void =
   al_set_window_title(display, title)
 
-proc newDisplayOption*(option: AllegroDisplayOption, value: int, importance: AllegroDisplayImportance): void =
-  al_set_new_display_option(option.cint, value.cint, importance.cint)
+proc newDisplayOption*(option: AllegroDisplayOption, value: int32, importance: AllegroDisplayImportance): void =
+  al_set_new_display_option(option.cint, value, importance.cint)
 
-proc displayOption*(option: AllegroDisplayOption): tuple[value: int, importance: AllegroDisplayImportance] =
+proc displayOption*(option: AllegroDisplayOption): tuple[value: int32, importance: AllegroDisplayImportance] =
   var importance: cint = 0
   var value = al_get_new_display_option(option.cint, importance)
-  return (value.int, AllegroDisplayImportance(importance))
+  return (value, AllegroDisplayImportance(importance))
 
 proc resetDisplayOptions*(): void =
   al_reset_new_display_options()
 
-proc option*(display: AllegroDisplay, option: AllegroDisplayOption, value: int): void =
-  al_set_display_option(display, option.cint, value.cint)
+proc option*(display: AllegroDisplay, option: AllegroDisplayOption, value: int32): void =
+  al_set_display_option(display, option.cint, value)
 
-proc option*(display: AllegroDisplay, option: AllegroDisplayOption): int =
+proc option*(display: AllegroDisplay, option: AllegroDisplayOption): int32 =
   al_get_display_option(display, option.cint)
 
 proc holdBitmapDrawing*(hold: bool): void =

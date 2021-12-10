@@ -82,14 +82,14 @@ proc blend*(): AllegroColor =
   ## Returns the color currently used for constant color blending (white by default).
   return al_get_blend_color()
 
-proc separateBlender*(operation, source, destination, alphaOperation, alphaSource, alphaDestination: int): void =
+proc separateBlender*(operation, source, destination, alphaOperation, alphaSource, alphaDestination: int32): void =
   ## Like al_set_blender, but allows specifying a separate blending operation for the
   ## alpha channel. This is useful if your target bitmap also has an alpha channel and
   ## the two alpha channels need to be combined in a different way than the color components.
-  al_set_separate_blender(operation.cint, source.cint, destination.cint, alphaOperation.cint, alphaSource.cint, alphaDestination.cint)
+  al_set_separate_blender(operation, source, destination, alphaOperation, alphaSource, alphaDestination)
 
-proc separateBlender*(): tuple[operation, source, destination, alphaOperation, alphaSource, alphaDestination: int] =
+proc separateBlender*(): tuple[operation, source, destination, alphaOperation, alphaSource, alphaDestination: int32] =
   ## Returns the active blender for the current thread.
   var operation, source, destination, alphaOperation, alphaSource, alphaDestination: cint = 0
   al_get_separate_blender(operation, source, destination, alphaOperation, alphaSource, alphaDestination)
-  return (operation.int, source.int, destination.int, alphaOperation.int, alphaSource.int, alphaDestination.int)
+  return (operation, source, destination, alphaOperation, alphaSource, alphaDestination)
